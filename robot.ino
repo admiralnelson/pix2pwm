@@ -1,15 +1,37 @@
-/*
- Name:		robot.ino
- Created:	5/9/2019 3:22:53 PM
- Author:	MIIX 510
-*/
+#include <analogWrite.h>
+#include <iostream>
+#include <string>
+#include <sstream>
 
-// the setup function runs once when you press reset or power the board
+#define PWM 26
+#define C1 27
+#define C2 14
+#define DEBUG_LED 2
+
+const int freq = 50;
+const int ledChannel = 0;
+const int resolution = 10;
+
 void setup() {
+	pinMode(PWM, OUTPUT);
+	pinMode(C1, OUTPUT);
+	pinMode(C2, OUTPUT);
 
+	pinMode(DEBUG_LED, OUTPUT);
+	Serial.begin(115200);
+
+	ledcSetup(ledChannel, freq, resolution);
+
+	ledcAttachPin(DEBUG_LED, ledChannel);
+	ledcAttachPin(C1, ledChannel);
+
+	int brightness = 0;
+	int fadeAmount = 5;
 }
+void loop() 
+{
+	auto res = pulseIn(34, true);
+	Serial.println(res);
+	ledcWrite(ledChannel, res);
 
-// the loop function runs over and over again until power down or reset
-void loop() {
-  
 }
